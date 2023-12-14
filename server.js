@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
 const dotenv = require('dotenv');
 dotenv.config()
+const morgan = require('morgan')
+
 
 const path = require('path');
 const app = express();
@@ -22,8 +24,7 @@ mongoose.connect(process.env.MONGO_URL).then(()=>{
 app.use(cors({
   credentials:true,
   origin:[
-    process.env.CLIENT_URL_1,
-    process.env.CLIENT_URL_2,
+    process.env.CLIENT_URL_1
   ],
   methods:[
     "GET","POST","DELETE","PUT","PATCH"
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, '/build')));
   
   // Middleware to parse JSON
   app.use(express.json());
+  app.use(morgan('dev'))
   
   // Middleware to parse JSON requests
   app.use(bodyParser.json());
