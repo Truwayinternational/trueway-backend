@@ -23,28 +23,28 @@ mongoose.connect(process.env.MONGO_URL).then(()=>{
 
 app.use(cors({
   credentials:true,
-  origin:[
-    process.env.CLIENT_URL_1
-  ],
+  origin: process.env.CLIENT_URL,
   methods:[
     "GET","POST","DELETE","PUT","PATCH"
   ]
 }))
 
-// for runnig build folder
-app.use(express.static(path.join(__dirname, '/build')));
   
   // Middleware to parse JSON
   app.use(express.json());
   app.use(morgan('dev'))
-  
+
+
   // Middleware to parse JSON requests
   app.use(bodyParser.json());
   
   //static files setup
   app.use('/uploads',express.static(__dirname + '/uploads'));
+
   app.use("/api", router);
-  
+
+  // for runnig build folder
+  app.use(express.static(path.join(__dirname, '/build')));
   app.get('*', (req, res) => {
       res.sendFile(path.join(__dirname, 'build', 'index.html'));
   });
