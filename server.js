@@ -8,8 +8,10 @@ const dotenv = require('dotenv');
 dotenv.config()
 const morgan = require('morgan')
 
+
 const path = require('path');
 const app = express();
+
 
 // connect mongoose
 mongoose.connect(process.env.MONGO_URL).then(()=>{
