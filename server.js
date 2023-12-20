@@ -8,10 +8,8 @@ const dotenv = require('dotenv');
 dotenv.config()
 const morgan = require('morgan')
 
-
 const path = require('path');
 const app = express();
-
 
 // connect mongoose
 mongoose.connect(process.env.MONGO_URL).then(()=>{
@@ -23,7 +21,10 @@ mongoose.connect(process.env.MONGO_URL).then(()=>{
 
 app.use(cors({
   credentials:true,
-  origin: process.env.CLIENT_URL,
+  origin: [
+    process.env.CLIENT_URL_1,
+    process.env.CLIENT_URL_2
+  ],
   methods:[
     "GET","POST","DELETE","PUT","PATCH"
   ]
@@ -43,7 +44,7 @@ app.use(cors({
 
   app.use("/api", router);
 
-  // for runnig build folder
+  // // for runnig build folder
   app.use(express.static(path.join(__dirname, '/build')));
   app.get('*', (req, res) => {
       res.sendFile(path.join(__dirname, 'build', 'index.html'));
